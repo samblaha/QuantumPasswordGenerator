@@ -2,24 +2,18 @@ from qiskit import QuantumCircuit, Aer, execute
 from qiskit.utils import QuantumInstance
 import string
 import random
-from config import API_TOKEN  # Assuming this is your configuration for something else, not needed for local simulation
+import sys  # Import the sys module to access command-line arguments
 
 def quantum_random_bit():
     """Generate a random bit using quantum computation."""
-    # Create a Quantum Circuit with 1 qubit
     qc = QuantumCircuit(1, 1)
-    # Apply a Hadamard gate to put the qubit in superposition
     qc.h(0)
-    # Measure the qubit
     qc.measure([0], [0])
 
-    # Execute the circuit on the qasm_simulator
     backend = Aer.get_backend('qasm_simulator')
-    quantum_instance = QuantumInstance(backend, shots=1)
     result = execute(qc, backend, shots=1).result()
     counts = result.get_counts()
 
-    # Return 0 or 1 based on the measurement
     return int(list(counts.keys())[0])
 
 def generate_password(length=12):
@@ -28,12 +22,21 @@ def generate_password(length=12):
     password = ''
 
     for _ in range(length):
-        # Use quantum randomness to pick a character
         random_bit = quantum_random_bit()
         random_index = random.randint(0, len(characters) - 1) if random_bit else random.randrange(len(characters))
         password += characters[random_index]
 
     return password
 
-# Generate and print a quantum-generated password
-print(generate_password(12))
+# Check if a command-line argument is provided for the password length
+if len(sys.argv) > 1:
+    try:
+        length = int(sys.argv[1])
+    except ValueError:
+        print("Provided length argument is not a valid number. Using default length of 12.")
+        length = 12
+else:
+    length = 12
+
+# Generate and print a quantum-generated password using the specified or default length
+print(generate_password(length))

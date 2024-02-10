@@ -13,7 +13,7 @@ app.get('/run-python', (req, res) => {
   const length = req.query.length ? req.query.length : 12; // Default to 12 if not provided
 
   // Adjust the path to your Python script as necessary
-  const pythonProcess = spawn('python3', ['/Users/sam/Documents/QPGweb/QPG.py', length]);
+  const pythonProcess = spawn('python3', ['/Users/sam/Documents/QPGweb/QuantumPasswordGenerator/QPG.py', length]);
 
   let outputData = '';
   pythonProcess.stdout.on('data', (data) => {

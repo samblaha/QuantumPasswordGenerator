@@ -69,6 +69,16 @@
         <p id="generatedPassword">Your password will appear here.</p>
     </div>
     <script>
+        // Function to update the displayed password length
+        function updateLengthValue(value) {
+            document.getElementById('lengthValue').textContent = value;
+        }
+        
+        // Attach an 'input' event listener to the range slider
+        document.getElementById('length').addEventListener('input', function() {
+            updateLengthValue(this.value);
+        });
+    
         document.getElementById('passwordForm').onsubmit = async function(e) {
             e.preventDefault(); // Prevent the form from submitting in the traditional way
     
@@ -94,6 +104,7 @@
             }
         }
     </script>
+    
     
 </body>
 </html>
